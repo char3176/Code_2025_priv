@@ -13,6 +13,6 @@ public final class ControllerConstants {
   public static final double SLOW_DRIVE_MULT =
       0.5; // TODO: CHECK THESE VALUES ON NEW BOT but these are for 2021
   public static final int FORWARD_AXIS_INVERSION = -1;
-  public static final int STRAFE_AXIS_INVERSION = 1;
+  public static final int STRAFE_AXIS_INVERSION = -1;
   public static final int SPIN_AXIS_INVERSION = -1;
 }
