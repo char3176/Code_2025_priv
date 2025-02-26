@@ -125,7 +125,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    robotContainer.setPivotCoast();
+    robotContainer.setCoast();
   }
 
   /** This function is called periodically when disabled. */
@@ -136,7 +136,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
-    robotContainer.setPivotBrake();
+    robotContainer.setBrake();
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -157,7 +157,7 @@ public class Robot extends LoggedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
-    robotContainer.setPivotBrake();
+    robotContainer.setBrake();
   }
 
   /** This function is called periodically during operator control. */

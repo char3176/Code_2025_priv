@@ -48,6 +48,9 @@ public interface ElevatorIO {
 
   public default void setElevatorVoltage(double voltage) {}
 
+  public default void setBrakeMode(boolean enable) {}
+
+
   // public default void stopLeft() {}
 
   // public default void stopRight() {}

@@ -152,4 +152,16 @@ public class ElevatorIOTalon implements ElevatorIO {
   public void setElevatorVoltge(double voltage) {
     elevatorLeftLeader.setVoltage(voltage);
   }
+
+  @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      elevatorLeftLeader.setNeutralMode(NeutralModeValue.Brake);
+      elevatorRightFollower.setNeutralMode(NeutralModeValue.Brake);
+    } else {
+      elevatorLeftLeader.setNeutralMode(NeutralModeValue.Coast);
+      elevatorRightFollower.setNeutralMode(NeutralModeValue.Coast);
+    }
+  }
+
 }

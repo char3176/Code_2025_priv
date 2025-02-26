@@ -111,6 +111,10 @@ public class Arm extends SubsystemBase {
     return instance;
   }
 
+  public boolean haveCoral() {
+    return inputs.hasCoral;
+  }
+
   // Example command to show how to set the pivot state
   public Command reefLevelPivot(double reefLevel) {
     return this.runOnce(
@@ -184,11 +188,16 @@ public class Arm extends SubsystemBase {
       case L4:
         setRollerVolts(L4ShootingVolts);
         break;
-      case HF:
-        setRollerVolts(HumanLoadVolts);
-        break;
     }
   }
+
+  public Command runRollersIn() {
+    return this.run(
+      () -> {
+        setRollerVolts(HumanLoadVolts);
+      });
+  }
+
 
 
   private void setRollerVolts(double volts) {

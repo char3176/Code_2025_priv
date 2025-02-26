@@ -37,5 +37,7 @@ public interface ClimbIO {
 
   public default void setVoltge(double voltage) {}
 
+  public default void setBrakeMode(boolean enable) {}
+
   public default void reset() {}
 }

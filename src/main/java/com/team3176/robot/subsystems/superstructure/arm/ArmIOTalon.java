@@ -65,7 +65,7 @@ public class ArmIOTalon implements ArmIO {
   private final StatusSignal<Temperature> rollerTemp;
   private LaserCan lc;
   private LaserCan.Measurement measurement;
-  private boolean hasCoral = false;
+  public boolean hasCoral = false;
   private double coralDistance = 100; 
   
 
@@ -161,6 +161,7 @@ public class ArmIOTalon implements ArmIO {
     rollerController.optimizeBusUtilization();
     pivotController.optimizeBusUtilization();
   }
+
 
 
   /** Updates the set of loggable inputs. */

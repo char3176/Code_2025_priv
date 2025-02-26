@@ -81,6 +81,29 @@ public class Climb extends SubsystemBase {
     return goToPosition(() -> 0.0);
   }
 
+  public void setCoast() {
+    io.setBrakeMode(false);
+  }
+
+  public void setBrake() {
+    io.setBrakeMode(true);
+  }
+  
+  public Command set2Coast() {
+    return this.runOnce(
+      () -> {
+        setCoast();
+      }); 
+    }
+
+  public Command set2Brake() {
+    return this.runOnce(
+      () -> {
+        setCoast();
+      }); 
+    }
+
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);

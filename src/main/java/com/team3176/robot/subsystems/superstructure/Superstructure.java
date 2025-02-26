@@ -49,7 +49,15 @@ public class Superstructure {
   }
 
   public Command setPivotBrake() {
-    return arm.setPivot2Coast();
+    return arm.setPivot2Brake();
+  }
+
+  public Command setClimbCoast() {
+    return climb.set2Coast();
+  }
+
+  public Command setClimbBrake() {
+    return climb.set2Brake();
   }
 
   public Command armVoltPosManual(DoubleSupplier voltage) {
@@ -98,6 +106,10 @@ public class Superstructure {
 
   public Command goToHumanLoad() {
     return (elevator.goToHumanLoad().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).alongWith(arm.setPosTrack(POS.HF))));
+  }
+
+  public Command runRollersIn () {
+    return (arm.runRollersIn()).until(() -> arm.haveCoral());
   }
 
 

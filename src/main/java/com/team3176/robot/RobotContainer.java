@@ -182,9 +182,12 @@ public class RobotContainer {
     
     // Human Load Positions and Rollers
     controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
+    controller.operator.leftTrigger().onTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
 
     // Shoot
     controller.transStick.button(0).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
+
+    
     
     /* 
     controller.operator.a().onTrue(superstructure.armVoltPos()).onFalse(superstructure.arm2Home());
@@ -241,12 +244,14 @@ public class RobotContainer {
   }
 
 
-  public void setPivotCoast() {
+  public void setCoast() {
     superstructure.setPivotCoast();
+    superstructure.setClimbCoast();
   }
 
-  public void setPivotBrake() {
+  public void setBrake() {
     superstructure.setPivotBrake();
+    superstructure.setClimbBrake();
   }
 
 

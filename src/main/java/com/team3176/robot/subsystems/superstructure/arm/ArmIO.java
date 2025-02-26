@@ -31,6 +31,7 @@ public interface ArmIO {
 
     public boolean coralLaserCan = false;
     public double coralLaserCanDist = 100;
+    public boolean hasCoral = false;
     public boolean ispivotlinebreak = false;
     public boolean upperlimitswitch = false;
     public boolean lowerlimitswitch = false;

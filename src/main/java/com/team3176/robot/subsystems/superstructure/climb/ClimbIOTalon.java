@@ -94,4 +94,14 @@ public class ClimbIOTalon implements ClimbIO {
   public void setVoltge(double voltage) {
     climb.setVoltage(voltage);
   }
+
+ @Override
+  public void setBrakeMode(boolean enable) {
+    if (enable) {
+      climb.setNeutralMode(NeutralModeValue.Brake);
+    } else {
+      climb.setNeutralMode(NeutralModeValue.Coast);
+    }
+  }
+
 }
