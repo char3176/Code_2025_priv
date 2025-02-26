@@ -85,27 +85,27 @@ public class Superstructure {
   }
 
   public Command goToL0() {
-    return (elevator.goToL0().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).alongWith(arm.setPosTrack(POS.L0))));
+    return (elevator.goToL0().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0))));
   }
 
   public Command goToL1() {
-    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).alongWith(arm.setPosTrack(POS.L1))));
+    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
   }
 
   public Command goToL2() {
-    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).alongWith(arm.setPosTrack(POS.L2))));
+    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L2))));
   }
 
   public Command goToL3() {
-    return (elevator.goToL3().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).alongWith(arm.setPosTrack(POS.L3))));
+    return (elevator.goToL3().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3))));
   }
 
   public Command goToL4() {
-    return (elevator.goToL4().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).alongWith(arm.setPosTrack(POS.L4))));
+    return (elevator.goToL4().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
   }
 
   public Command goToHumanLoad() {
-    return (elevator.goToHumanLoad().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).alongWith(arm.setPosTrack(POS.HF))));
+    return (elevator.goToHumanLoad().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
   }
 
   public Command runRollersIn () {
