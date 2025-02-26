@@ -246,12 +246,10 @@ public class RobotContainer {
 
   public void setCoast() {
     superstructure.setPivotCoast();
-    superstructure.setClimbCoast();
   }
 
   public void setBrake() {
     superstructure.setPivotBrake();
-    superstructure.setClimbBrake();
   }
 
 
