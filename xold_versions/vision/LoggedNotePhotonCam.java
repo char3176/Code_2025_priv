@@ -1,11 +1,11 @@
-package team3176.robot.subsystems.vision;
+package com.team3176.robot.subsystems.vision;
 
 import java.util.ArrayList;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-//import team3176.robot.subsystems.leds.LEDS;
+//import com.team3176.robot.subsystems.leds.LEDS;
 
 public class LoggedNotePhotonCam {
 

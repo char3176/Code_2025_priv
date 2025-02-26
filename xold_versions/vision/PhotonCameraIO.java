@@ -1,4 +1,4 @@
-package team3176.robot.subsystems.vision;
+package com.team3176.robot.subsystems.vision;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.PhotonCamera;

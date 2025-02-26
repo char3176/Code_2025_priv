@@ -1,4 +1,4 @@
-package team3176.robot.subsystems.vision;
+package com.team3176.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
-import team3176.robot.constants.BaseConstants;
-import team3176.robot.constants.BaseConstants.Mode;
+import com.team3176.robot.constants.BaseConstants;
+import com.team3176.robot.constants.BaseConstants.Mode;
 
 public class PhotonVisionSystem extends SubsystemBase {
   // currently using an body frame that is at the center of the XY of the robot and projected down

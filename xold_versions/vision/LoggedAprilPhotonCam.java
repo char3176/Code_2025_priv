@@ -1,4 +1,4 @@
-package team3176.robot.subsystems.vision;
+package com.team3176.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
@@ -26,10 +26,10 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-import team3176.robot.constants.BaseConstants;
-import team3176.robot.constants.BaseConstants.Mode;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
-import team3176.robot.util.TunableTransform3d;
+import com.team3176.robot.constants.BaseConstants;
+import com.team3176.robot.constants.BaseConstants.Mode;
+import com.team3176.robot.subsystems.drivetrain.Drivetrain;
+import com.team3176.robot.util.TunableTransform3d;
 
 public class LoggedAprilPhotonCam {
   // currently using an body frame that is at the center of the XY of the robot and projected down

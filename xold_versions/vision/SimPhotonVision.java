@@ -1,4 +1,4 @@
-package team3176.robot.subsystems.vision;
+package com.team3176.robot.subsystems.vision;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.MatBuilder;
@@ -11,7 +11,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
-import team3176.robot.subsystems.drivetrain.Drivetrain;
+import com.team3176.robot.subsystems.drivetrain.Drivetrain;
 
 public class SimPhotonVision extends SubsystemBase {
   // Simulated Vision System.
