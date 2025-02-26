@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package team3176.robot.constants;
+package team3176.robot;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,13 +18,14 @@ import java.nio.file.Path;
 import java.util.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import team3176.robot.constants.BaseConstants;
 
 /**
  * Contains various field dimensions and useful reference points. All units are in meters and poses
  * have a blue alliance origin.
  */
 public class FieldConstants {
-  public static final FieldType fieldType = FieldType.ANDYMARK;
+  public static final FieldType fieldType = FieldType.WELDED;
 
   public static final double fieldLength = AprilTagLayoutType.OFFICIAL.getLayout().getFieldLength();
   public static final double fieldWidth = AprilTagLayoutType.OFFICIAL.getLayout().getFieldWidth();
@@ -41,6 +42,9 @@ public class FieldConstants {
   }
 
   public static class Barge {
+    public static final double netWidth = Units.inchesToMeters(40.0);
+    public static final double netHeight = Units.inchesToMeters(88.0);
+
     public static final Translation2d farCage =
         new Translation2d(Units.inchesToMeters(345.428), Units.inchesToMeters(286.779));
     public static final Translation2d middleCage =

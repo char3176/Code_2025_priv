@@ -21,6 +21,7 @@ public class Hardwaremap {
   public static final int elevatorRight_CID = 61;
   public static int PDH_CID = 1;
   public static int laserCan_CID = 48;
+  public static int pigeon_CID = 5;
 
   public static final String conveyor_CBN = "rio";
   public static final String shooterWheelUpper_CBN = "rio";
