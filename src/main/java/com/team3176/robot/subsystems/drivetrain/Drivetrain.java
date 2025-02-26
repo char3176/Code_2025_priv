@@ -160,7 +160,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Prevents more than one instance of drivetrian
-  public static Drivetrain getinstance() {
+  public static Drivetrain getnstance() {
     if (instance == null) {
       switch (BaseConstants.getMode()) {
         case REAL:
@@ -196,9 +196,8 @@ public class Drivetrain extends SubsystemBase {
                   new SwervepodIO() {});
           break;
       }
-      } else {
-        return instance;
-      }
+    }
+    return instance;
     }
    
   @Override
