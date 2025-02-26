@@ -138,7 +138,10 @@ public class RobotContainer {
                 () -> (controller.getSpin()) // * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
-
+        
+        controller.transStick.button(4).onTrue(Commands.runOnce(drive::stopWithX, drive));
+        
+        
         //controller.operator.a().whileTrue(drivetrain.applyRequest(() -> brake));
         //controller.operator.b().whileTrue(drivetrain.applyRequest(() ->
         //    point.withModuleDirection(new Rotation2d(controller.operator.getLeftY(), controller.operator.getLeftX()))
@@ -161,7 +164,7 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         //controller.rotStick.button(8).onTrue(drive.runOnce(() -> drive.seedFieldCentric()));
        
-        // Reset gyro to 0° when B button is pressed
+        // Reset gyro to 0° 
         controller.rotStick.button(8).onTrue(
             Commands.runOnce(
                     () ->
@@ -185,7 +188,7 @@ public class RobotContainer {
     controller.operator.leftTrigger().onTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
 
     // Shoot
-    controller.transStick.button(0).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
+    controller.transStick.button(1).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
 
     
     
