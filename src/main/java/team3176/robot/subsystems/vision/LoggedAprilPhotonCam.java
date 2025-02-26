@@ -26,8 +26,8 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-import team3176.robot.Constants;
-import team3176.robot.Constants.Mode;
+import team3176.robot.constants.BaseConstants;
+import team3176.robot.constants.BaseConstants.Mode;
 import team3176.robot.subsystems.drivetrain.Drivetrain;
 import team3176.robot.util.TunableTransform3d;
 
@@ -200,7 +200,7 @@ public class LoggedAprilPhotonCam {
     PhotonPipelineResult results = io.getResult(inputs.rawBytes);
     // TODO: read about the new timestamp process
     // results.setTimestampSeconds(inputs.timestamp);
-    if (Constants.getMode() == Mode.REPLAY) {
+    if (BaseConstants.getMode() == Mode.REPLAY) {
       Logger.recordOutput("photonvision/" + name + "/raw", PhotonPipelineResult.proto, results);
     }
     generateLoggingData(results);

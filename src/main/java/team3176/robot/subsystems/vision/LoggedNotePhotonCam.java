@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.Logger;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
-import team3176.robot.subsystems.leds.LEDS;
+//import team3176.robot.subsystems.leds.LEDS;
 
 public class LoggedNotePhotonCam {
 
@@ -16,7 +16,7 @@ public class LoggedNotePhotonCam {
   public boolean seeNote;
   public boolean lastSeeNote;
 
-  private LEDS leds;
+//  private LEDS leds;
   private PhotonCameraIO io;
 
   private PhotonCameraInputsAutoLogged inputs;
@@ -41,7 +41,7 @@ public class LoggedNotePhotonCam {
       double notearea = target.getArea();
       seeNote = true;
       if (seeNote != lastSeeNote) {
-        leds.getInstance().setWantNote(true);
+        //leds.getInstance().setWantNote(true);
         lastSeeNote = seeNote;
       }
       ArrayList<Double> x = new ArrayList<Double>();
@@ -59,7 +59,7 @@ public class LoggedNotePhotonCam {
     } else {
       seeNote = false;
       if (seeNote != lastSeeNote) {
-        leds.getInstance().setWantNote(false);
+        //leds.getInstance().setWantNote(false);
         lastSeeNote = seeNote;
       }
       ArrayList<Double> x = new ArrayList<Double>();
