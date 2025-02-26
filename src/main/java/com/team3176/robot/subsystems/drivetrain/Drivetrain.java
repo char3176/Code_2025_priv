@@ -16,6 +16,7 @@ package com.team3176.robot.subsystems.drivetrain;
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.CANBus;
+import com.fasterxml.jackson.databind.JsonSerializable.Base;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
@@ -60,19 +61,10 @@ public class Drivetrain extends SubsystemBase {
   // TunerConstants doesn't include these constants, so they are declared locally
   static final double ODOMETRY_FREQUENCY =
       new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD() ? 250.0 : 100.0;
-  public static final double DRIVE_BASE_RADIUS =
-      Math.max(
-          Math.max(
-              Math.hypot(TunerConstants.FrontLeft.LocationX, TunerConstants.FrontLeft.LocationY),
-              Math.hypot(TunerConstants.FrontRight.LocationX, TunerConstants.FrontRight.LocationY)),
-          Math.max(
-              Math.hypot(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
-              Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
-
-  // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = 74.088;
-  private static final double ROBOT_MOI = 6.883;
-  private static final double WHEEL_COF = 1.2;
+  public static final double DRIVE_BASE_RADIUS = 0.546;;
+  private static final double ROBOT_MASS_KG = 74.008; // BaseConstants.ROBOT_MASS_KG; //74.088;
+  private static final double ROBOT_MOI = 6.883; // BaseConstants.ROBOT_MOI: //6.883;
+  private static final double WHEEL_COF = 1.2; // BaseConstants.WHEEL_COF; //1.2;
   private static final RobotConfig PP_CONFIG =
       new RobotConfig(
           ROBOT_MASS_KG,
@@ -157,6 +149,16 @@ public class Drivetrain extends SubsystemBase {
                 (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
+      Math.max(
+          Math.max(
+              Math.hypot(TunerConstants.FrontLeft.LocationX, TunerConstants.FrontLeft.LocationY),
+              Math.hypot(TunerConstants.FrontRight.LocationX, TunerConstants.FrontRight.LocationY)),
+          Math.max(
+              Math.hypot(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
+              Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
+          )
+      );
+  
   }
 
   // Prevents more than one instance of drivetrian
@@ -407,4 +409,44 @@ public class Drivetrain extends SubsystemBase {
       new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
     };
   }
+ 
+  /*
+  getRobotConfig() { 
+    return new RobotConfig(
+          this.ROBOT_MASS_KG,
+          this.ROBOT_MOI,
+          new ModuleConfig(
+              TunerConstants.FrontLeft.WheelRadius,
+              TunerConstants.kSpeedAt12Volts.in(MetersPerSecond),
+              WHEEL_COF,
+              DCMotor.getKrakenX60Foc(1)
+                  .withReduction(TunerConstants.FrontLeft.DriveMotorGearRatio),
+              TunerConstants.FrontLeft.SlipCurrent,
+              1)
+    )
+  */
 }
+
+
+  // PathPlanner config constants
+  /*
+    "robotwidth": 0.9,
+    "robotlength": 0.9,
+    "holonomicmode": true,
+    "pathfolders": [],
+    "autofolders": [],
+    "defaultmaxvel": 3.0,
+    "defaultmaxaccel": 3.0,
+    "defaultmaxangvel": 540.0,
+    "defaultmaxangaccel": 720.0,
+    "robotmass": 74.088,
+    "robotmoi": 6.883,
+    "robotwheelbase": 0.546,
+    "robottrackwidth": 0.546,
+    "drivewheelradius": 0.048,
+    "drivegearing": 5.143,
+    "maxdrivespeed": 5.45,
+    "drivemotortype": "krakenx60foc",
+    "driveCurrentLimit": 60.0,
+    "wheelCOF": 1.2
+  */
