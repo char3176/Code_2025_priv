@@ -160,11 +160,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Prevents more than one instance of drivetrian
-  public static Drivetrain getInstance() {
+  public static Drivetrain getinstance() {
     if (instance == null) {
       switch (BaseConstants.getMode()) {
         case REAL:
-          // Real robot, instantiate hardware IO implementations
+          // real robot, instantiate hardware io implementations
           instance =
               new Drivetrain(
                   new GyroIOPigeon2(),
@@ -175,7 +175,7 @@ public class Drivetrain extends SubsystemBase {
           break;
   
         case SIM:
-          // Sim robot, instantiate physics sim IO implementations
+          // sim robot, instantiate physics sim io implementations
           instance =
               new Drivetrain(
                   new GyroIO() {},
@@ -186,7 +186,7 @@ public class Drivetrain extends SubsystemBase {
           break;
   
         default:
-          // Replayed robot, disable IO implementations
+          // replayed robot, disable io implementations
           instance =
               new Drivetrain(
                   new GyroIO() {},
