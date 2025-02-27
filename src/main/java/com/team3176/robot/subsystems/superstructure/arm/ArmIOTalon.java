@@ -38,16 +38,13 @@ import au.grapplerobotics.ConfigurationFailedException;
 /** Template hardware interface for a closed loop subsystem. */
 public class ArmIOTalon implements ArmIO {
 
-  private TalonFX rollerController;
   private TalonFX pivotController;
   private CANcoder armPivotEncoder;
   VelocityVoltage voltVelocity;
-  VoltageOut rollerVolts = new VoltageOut(0.0);
   VoltageOut pivotVolts = new VoltageOut(0.0);
   PositionVoltage voltPosition = new PositionVoltage(0);
   private Rotation2d encoderOffset; 
   
-  DigitalInput rollerLinebreak;
   DigitalInput pivotLinebreak;
 
   private final StatusSignal<Voltage> pivotAppliedVolts;
@@ -58,11 +55,6 @@ public class ArmIOTalon implements ArmIO {
   private final StatusSignal<Angle> pivotAbsolutePosition;
   private final StatusSignal<Temperature> pivotTemp;
 
-  private final StatusSignal<Voltage> rollerAppliedVolts;
-  private final StatusSignal<Current> rollerCurrentAmpsStator;
-  private final StatusSignal<Current> rollerCurrentAmpsSupply;
-  private final StatusSignal<AngularVelocity> rollerVelocity;
-  private final StatusSignal<Temperature> rollerTemp;
   private LaserCan lc;
   private LaserCan.Measurement measurement;
   public boolean hasCoral = false;
@@ -87,7 +79,6 @@ public class ArmIOTalon implements ArmIO {
 
     // rollerLinebreak = new DigitalInput(Hardwaremap.armRollerLinebreak_DIO);
     // pivotLinebreak = new DigitalInput(Hardwaremap.armPivotLinebreak_DIO);
-    rollerController = new TalonFX(Hardwaremap.armRoller_CID, Hardwaremap.armRoller_CBN);
     pivotController = new TalonFX(Hardwaremap.armPivot_CID, Hardwaremap.armPivot_CBN);
 
     armPivotEncoder = new CANcoder(Hardwaremap.armCancoder_CID, Hardwaremap.armPivot_CBN);
@@ -124,7 +115,6 @@ public class ArmIOTalon implements ArmIO {
         0.2;
     pivotConfigs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true; 
 
-    TalonUtils.applyTalonFxConfigs(rollerController, rollerConfigs);
     TalonUtils.applyTalonFxConfigs(pivotController, pivotConfigs);
     //pivotController.setPosition(0, 0);
 
@@ -136,12 +126,6 @@ public class ArmIOTalon implements ArmIO {
     pivotAbsolutePosition = armPivotEncoder.getAbsolutePosition();
     pivotTemp = pivotController.getDeviceTemp();
 
-    rollerAppliedVolts = rollerController.getMotorVoltage();
-    rollerCurrentAmpsStator = rollerController.getStatorCurrent();
-    rollerCurrentAmpsSupply = rollerController.getSupplyCurrent();
-    rollerVelocity = rollerController.getVelocity();
-    rollerTemp = rollerController.getDeviceTemp();
-
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
         pivotAppliedVolts,
@@ -150,15 +134,7 @@ public class ArmIOTalon implements ArmIO {
         pivotPosition,
         pivotTemp,
         pivotCurrentAmpsSupply);
-    BaseStatusSignal.setUpdateFrequencyForAll(
-        50,
-        rollerAppliedVolts,
-        rollerVelocity,
-        rollerCurrentAmpsStator,
-        rollerTemp,
-        rollerCurrentAmpsSupply);
 
-    rollerController.optimizeBusUtilization();
     pivotController.optimizeBusUtilization();
   }
 
@@ -175,12 +151,6 @@ public class ArmIOTalon implements ArmIO {
         pivotTemp,
         pivotCurrentAmpsSupply
         );
-    BaseStatusSignal.refreshAll(
-        rollerAppliedVolts,
-        rollerVelocity,
-        rollerCurrentAmpsStator,
-        rollerTemp,
-        rollerCurrentAmpsSupply);
 
     // inputs.isRollerLinebreak = (!rollerLinebreak.get());
     // inputs.isPivotLinebreak = (!pivotLinebreak.get());
@@ -193,11 +163,6 @@ public class ArmIOTalon implements ArmIO {
     inputs.pivotPositionRot = pivotPosition.getValueAsDouble();
     inputs.pivotVelocityRadPerSec = Units.rotationsToRadians(pivotVelocity.getValueAsDouble());
 
-    inputs.rollerAppliedVolts = rollerAppliedVolts.getValueAsDouble();
-    inputs.rollerAmpsStator = rollerCurrentAmpsStator.getValueAsDouble();
-    inputs.rollerAmpsSupply = rollerCurrentAmpsSupply.getValueAsDouble();
-    inputs.rollerTempCelcius = rollerTemp.getValueAsDouble();
-    inputs.rollerVelocityRadPerSec = Units.rotationsToRadians(rollerVelocity.getValueAsDouble());    
     inputs.pivotAbsolutePositionDegrees =
         MathUtil.inputModulus(
             Rotation2d.fromRotations(armPivotEncoder.getAbsolutePosition().getValueAsDouble())
@@ -228,11 +193,6 @@ public class ArmIOTalon implements ArmIO {
     */
     }
     
-  }
-
-  @Override
-  public void setRollerVolts(double volts) {
-    rollerController.setControl(rollerVolts.withOutput(volts));
   }
 
   @Override

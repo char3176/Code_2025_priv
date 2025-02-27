@@ -1,5 +1,6 @@
 package com.team3176.robot.subsystems.superstructure;
 
+import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 //import com.team3176.robot.constants.FieldConstants;
@@ -8,8 +9,10 @@ import com.team3176.robot.subsystems.drivetrain.Drivetrain;
 import com.team3176.robot.subsystems.superstructure.climb.Climb;
 import com.team3176.robot.subsystems.superstructure.arm.Arm;
 import com.team3176.robot.subsystems.superstructure.arm.Arm.POS;
+import com.team3176.robot.subsystems.superstructure.armrollers.ArmRollers;
 import com.team3176.robot.subsystems.superstructure.elevator.Elevator;
 import com.team3176.robot.util.LoggedTunableNumber;
+import com.ctre.phoenix6.StatusSignal;
 import com.team3176.robot.constants.SuperStructureConstants;
 import com.team3176.robot.util.LoggedTunableNumber;
 import com.team3176.robot.util.TunablePID;
@@ -17,6 +20,7 @@ public class Superstructure {
   private static Superstructure instance;
   private Climb climb;
   private Arm arm;
+  private ArmRollers armrollers;
   private Elevator elevator;
   private final LoggedTunableNumber pivotTuneSetPoint, velTuneSetPoint, elevTunePositionSetPoint, climbTunePositionSetPoint;
   private final LoggedTunableNumber L1ElvSetpoint, L2ElvSetpoint, L3ElvSetpoint, L4ElvSetpoint;
@@ -27,6 +31,7 @@ public class Superstructure {
   public Superstructure() {
     climb = Climb.getInstance();
     arm = Arm.getInstance();
+    armrollers = ArmRollers.getInstance();
     elevator = Elevator.getInstance();
     this.pivotTuneSetPoint = new LoggedTunableNumber("Arm/pivotSetpoint", 0);
     this.velTuneSetPoint = new LoggedTunableNumber("Arm/velSetpoint", 0);
@@ -80,15 +85,15 @@ public class Superstructure {
   }
 
   public Command armVoltVel() {
-    return (arm.runVelocity(()-> this.velTuneSetPoint.get())).andThen(arm.stopRollers());
+    return (armrollers.runVelocity(()-> this.velTuneSetPoint.get())).andThen(armrollers.stopRollers());
   }
 
   public Command armVoltVelManual(DoubleSupplier voltage) {
-    return arm.runVelocity(() -> voltage.getAsDouble());
+    return armrollers.runVelocity(() -> voltage.getAsDouble());
   }
 
   public Command armRevVoltVel() {
-    return arm.runVelocity(()->-1 * this.velTuneSetPoint.get());
+    return armrollers.runVelocity(()->-1 * this.velTuneSetPoint.get());
   }
 
   public Command testElevator() {
@@ -125,17 +130,17 @@ public class Superstructure {
   }
 
   public Command runRollersIn () {
-    return arm.runVelocity(() -> this.HumanLoadTuneVolts.get());
+    return armrollers.runVelocity(() -> this.HumanLoadTuneVolts.get());
     //return (arm.runRollersIn(() -> this.HumanLoadTuneVolts.get()));//.until(() -> arm.haveCoral());
   }
 
 
   public Command shoot() {
-    return (arm.shoot());
+    return (armrollers.shoot());
   }
 
   public Command stopRollers() {
-    return (arm.stopRollers());
+    return (armrollers.stopRollers());
   }
 
   public Command testClimb() {

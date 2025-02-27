@@ -20,20 +20,16 @@ public class Arm extends SubsystemBase {
   private static Arm instance;
   private final ArmIO io;
   private final ArmIOInputsAutoLogged inputs = new ArmIOInputsAutoLogged();
-  private final LoggedTunableNumber rollerVolts;
   private final LoggedTunableNumber pivotTuneSetPoint;
   private final LoggedTunableNumber HumanLoadTuneSetpoint, L0TuneSetpoint, L1TuneSetpoint, L2TuneSetpoint, L3TuneSetpoint, L4TuneSetpoint;
-  private final LoggedTunableNumber HumanLoadTuneVolts, L0TuneShootingVolts, L1TuneShootingVolts, L2TuneShootingVolts, L3TuneShootingVolts, L4TuneShootingVolts; 
   private final TunablePID pivotPID;
   private Timer deployTime = new Timer();
   private double pivotSetpoint;
   private final double DEPLOY_POS = 2.1;
   private double pivot_offset = 0;
   private boolean ishomed = false;
-  private double lastRollerSpeed = 0.0;
   private double pivotHome = 0.2;
   private double HumanLoadSetpoint, L0Setpoint, L1Setpoint, L2Setpoint, L3Setpoint, L4Setpoint;
-  private double HumanLoadVolts, L0ShootingVolts, L1ShootingVolts, L2ShootingVolts, L3ShootingVolts, L4ShootingVolts; 
   public enum POS {
     HF,
     L0,
@@ -57,7 +53,6 @@ public class Arm extends SubsystemBase {
   private Arm(ArmIO io) {
     this.io = io;
     this.pivotPID = new TunablePID("ArmPivot", 3.0, 0.0, 0.0);
-    this.rollerVolts = new LoggedTunableNumber("Arm/rollerVolts", 7.0);
     this.pivotTuneSetPoint = new LoggedTunableNumber("Arm/pivotSetpoint", 0);
     this.HumanLoadTuneSetpoint = new LoggedTunableNumber("Arm/HumanLoadSetpoint", 0.20);
     this.L0TuneSetpoint = new LoggedTunableNumber("Arm/L0Setpoint", 0.20);
@@ -65,12 +60,6 @@ public class Arm extends SubsystemBase {
     this.L2TuneSetpoint = new LoggedTunableNumber("Arm/L2Setpoint", 0.20);
     this.L3TuneSetpoint = new LoggedTunableNumber("Arm/L3Setpoint", 0.20);
     this.L4TuneSetpoint = new LoggedTunableNumber("Arm/L4Setpoint", 0.20);
-    this.HumanLoadTuneVolts = new LoggedTunableNumber("Arm/HumanLoadVolts", 0.20);
-    this.L0TuneShootingVolts = new LoggedTunableNumber("Arm/L0Volts", 0.20);
-    this.L1TuneShootingVolts = new LoggedTunableNumber("Arm/L1Volts", 0.20);
-    this.L2TuneShootingVolts = new LoggedTunableNumber("Arm/L2Volts", 0.20);
-    this.L3TuneShootingVolts = new LoggedTunableNumber("Arm/L3Volts", 0.20);
-    this.L4TuneShootingVolts = new LoggedTunableNumber("Arm/L4Volts", 0.20);
     this.pivotHome = inputs.pivotPositionRot;
 
 
@@ -80,12 +69,6 @@ public class Arm extends SubsystemBase {
     L2Setpoint = SuperStructureConstants.ARM_L2_POS;
     L3Setpoint = SuperStructureConstants.ARM_L3_POS;
     L4Setpoint = SuperStructureConstants.ARM_L4_POS;
-    HumanLoadVolts = SuperStructureConstants.ARM_HF_VOLTS;
-    L0ShootingVolts = SuperStructureConstants.ARM_L0_SHOOTINGVOLTS;
-    L1ShootingVolts = SuperStructureConstants.ARM_L1_SHOOTINGVOLTS;
-    L2ShootingVolts = SuperStructureConstants.ARM_L2_SHOOTINGVOLTS;
-    L3ShootingVolts = SuperStructureConstants.ARM_L3_SHOOTINGVOLTS;
-    L4ShootingVolts = SuperStructureConstants.ARM_L4_SHOOTINGVOLTS;
   }
 
   public Command setPosTrack(POS pos){
@@ -124,10 +107,6 @@ public class Arm extends SubsystemBase {
         });
   }
 
-  public Command stopRollers() {
-    return this.runOnce(() -> {setRollerVolts(0.0);});
-  }
-
   public Command arm2Home() {
     return this.runOnce(
       () -> {
@@ -154,55 +133,6 @@ public class Arm extends SubsystemBase {
       });
   }
 
-  public Command runVelocity(DoubleSupplier volts) {
-    return this.runEnd(
-      () -> {
-        setRollerVolts(volts.getAsDouble());
-      }, 
-      () -> {
-        setRollerVolts(0.0);
-      });
-  }
-
-  public Command shoot() {
-    return this.run(
-      () -> {
-        runShoot();
-      });
-  }
-
-  private void runShoot() {
-    switch (currentPosTrack) {
-      case L0:
-        setRollerVolts(L0ShootingVolts);
-        break;
-      case L1:
-        setRollerVolts(L1ShootingVolts);
-        break;
-      case L2:
-        setRollerVolts(L2ShootingVolts);
-        break;
-      case L3:
-        setRollerVolts(L3ShootingVolts);
-        break;
-      case L4:
-        setRollerVolts(L4ShootingVolts);
-        break;
-    }
-  }
-
-  public Command runRollersIn(DoubleSupplier volts) {
-    return this.runOnce(
-      () -> {
-        setRollerVolts(volts.getAsDouble());
-      });
-  }
-
-
-
-  private void setRollerVolts(double volts) {
-    io.setRollerVolts(12 * volts);
-  }
 
   private void setPivotVolts(double volts) {
     io.setPivotVolts(volts);
@@ -258,28 +188,6 @@ public class Arm extends SubsystemBase {
     if (L4TuneSetpoint.hasChanged(hashCode())) {
       L4Setpoint = L4TuneSetpoint.get();
     }
-    if (HumanLoadTuneVolts.hasChanged(hashCode())) {
-      HumanLoadVolts = HumanLoadTuneVolts.get();
-    }
-    if (L0TuneSetpoint.hasChanged(hashCode())) {
-      L0ShootingVolts = L0TuneShootingVolts.get();
-    }
-    if (L1TuneSetpoint.hasChanged(hashCode())) {
-      L1ShootingVolts = L1TuneShootingVolts.get();
-    }
-    if (L2TuneSetpoint.hasChanged(hashCode())) {
-      L2ShootingVolts = L2TuneShootingVolts.get();
-    }
-    if (L3TuneSetpoint.hasChanged(hashCode())) {
-      L3ShootingVolts = L3TuneShootingVolts.get();
-    }
-    if (L4TuneSetpoint.hasChanged(hashCode())) {
-      L4ShootingVolts = L4TuneShootingVolts.get();
-    }
-
-
-
-
 
 
     Logger.processInputs("Arm", inputs);

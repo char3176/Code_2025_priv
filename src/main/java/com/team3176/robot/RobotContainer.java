@@ -65,8 +65,9 @@ public class RobotContainer {
 
   private final Superstructure superstructure;
 
-  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    //private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(2).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -183,15 +184,46 @@ public class RobotContainer {
         
         controller.transStick.button(4).onTrue(Commands.runOnce(drive::stopWithX, drive));
        */
-         drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(controller.getForward() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(controller.getStrafe() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(controller.getSpin() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        drivetrain.setDefaultCommand(
+          // Drivetrain will execute this command periodically
+          drivetrain.applyRequest(() ->
+            drive.withVelocityX(controller.getForward() * MaxSpeed) // Drive forward with negative Y (forward)
+              .withVelocityY(controller.getStrafe() * MaxSpeed) // Drive left with negative X (left)
+              .withRotationalRate(controller.getSpin() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+          )
+        );
+
+        //Boost me baby (2x speed)
+        controller.rotStick.button(1).whileTrue(
+            drivetrain.applyRequest(() -> 
+                drive.withVelocityX(controller.getForward() * MaxSpeed * 2)
+                .withVelocityY(controller.getStrafe() * MaxSpeed * 2)
+                .withRotationalRate(controller.getSpin() * MaxAngularRate * 2)
             )
         );
-        
+
+        controller.rotStick.button(8).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        controller.transStick.button(4).whileTrue(drivetrain.applyRequest(() -> brake));
+        controller.rotStick.button(4).whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(controller.getForward(), controller.getStrafe()))
+        ));
+
+
+        controller.rotStick.pov(0).whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        );
+        controller.rotStick.pov(180).whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        );
+
+        controller.operator.back().and(controller.rotStick.button(12)).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        controller.operator.back().and(controller.rotStick.button(13)).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        controller.operator.back().and(controller.rotStick.button(14)).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        controller.operator.back().and(controller.rotStick.button(15)).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+
+
+
         //controller.operator.a().whileTrue(drivetrain.applyRequest(() -> brake));
         //controller.operator.b().whileTrue(drivetrain.applyRequest(() ->
         //    point.withModuleDirection(new Rotation2d(controller.operator.getLeftY(), controller.operator.getLeftX()))
