@@ -18,10 +18,10 @@ import com.team3176.robot.util.LoggedTunableNumber;
 import com.team3176.robot.util.TunablePID;
 public class Superstructure {
   private static Superstructure instance;
-  private Climb climb;
+  //private Climb climb;
   private Arm arm;
   private ArmRollers armrollers;
-  private Elevator elevator;
+  //private Elevator elevator;
   private final LoggedTunableNumber pivotTuneSetPoint, velTuneSetPoint, elevTunePositionSetPoint, climbTunePositionSetPoint;
   private final LoggedTunableNumber L1ElvSetpoint, L2ElvSetpoint, L3ElvSetpoint, L4ElvSetpoint;
   private final LoggedTunableNumber HumanLoadElvSetpoint;
@@ -29,10 +29,10 @@ public class Superstructure {
   private final LoggedTunableNumber HumanLoadTuneVolts, L0TuneShootingVolts, L1TuneShootingVolts, L2TuneShootingVolts, L3TuneShootingVolts, L4TuneShootingVolts;
 
   public Superstructure() {
-    climb = Climb.getInstance();
+    //climb = Climb.getInstance();
     arm = Arm.getInstance();
     armrollers = ArmRollers.getInstance();
-    elevator = Elevator.getInstance();
+    //elevator = Elevator.getInstance();
     this.pivotTuneSetPoint = new LoggedTunableNumber("Arm/pivotSetpoint", 0);
     this.velTuneSetPoint = new LoggedTunableNumber("Arm/velSetpoint", 0);
     this.elevTunePositionSetPoint = new LoggedTunableNumber("Elevator/posSetpoint", 0);
@@ -71,7 +71,7 @@ public class Superstructure {
   public Command setPivotBrake() {
     return arm.setPivot2Brake();
   }
-
+  /*
   public Command setClimbCoast() {
     return climb.set2Coast();
   }
@@ -79,6 +79,7 @@ public class Superstructure {
   public Command setClimbBrake() {
     return climb.set2Brake();
   }
+  */
 
   public Command armVoltPosManual(DoubleSupplier voltage) {
     return arm.runPosition(()->this.pivotTuneSetPoint.get());
@@ -95,7 +96,7 @@ public class Superstructure {
   public Command armRevVoltVel() {
     return armrollers.runVelocity(()->-1 * this.velTuneSetPoint.get());
   }
-
+  /* 
   public Command testElevator() {
     return elevator.goToPosition(()->this.elevTunePositionSetPoint.get());
   }
@@ -103,30 +104,37 @@ public class Superstructure {
   public Command testElevatorManual(DoubleSupplier voltage) {
     return elevator.goToPositionManual(() -> voltage.getAsDouble());
   }
+  */
 
   public Command goToL0() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L0_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0)));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L0_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0)));
+    return (arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0)));
   }
 
   public Command goToL1() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L1_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L1_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
+    return (arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1)));
   }
 
   public Command goToL2() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L2_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(arm.setPosTrack(POS.L2)));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L2_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(arm.setPosTrack(POS.L2)));
+    return (arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(arm.setPosTrack(POS.L2)));
   }
 
   public Command goToL3() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L3_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3)));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L3_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3)));
+    return (arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3)));
   }
 
   public Command goToL4() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L4_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L4_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
+    return (arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4)));
   }
 
   public Command goToHumanLoad() {
     //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> this.HumanLoadTuneSetpoint.get()).andThen(arm.setPosTrack(POS.HF))));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> this.HumanLoadTuneSetpoint.get()).andThen(arm.setPosTrack(POS.HF))));
+    return (arm.runPosition(() -> this.HumanLoadTuneSetpoint.get()).andThen(arm.setPosTrack(POS.HF)));
   }
 
   public Command runRollersIn () {
@@ -142,7 +150,7 @@ public class Superstructure {
   public Command stopRollers() {
     return (armrollers.stopRollers());
   }
-
+/* 
   public Command testClimb() {
     return climb.moveClimbPosition(() -> this.climbTunePositionSetPoint.get());
   }
@@ -159,7 +167,7 @@ public class Superstructure {
         // .andThen(Drivetrain.getInstance().chaseNote().raceWith(intakeNote()));
         .andThen(Drivetrain.getInstance().chaseNote());
   }
-  */
+*/
 
   public static Superstructure getInstance() {
     if (instance == null) {

@@ -65,20 +65,20 @@ public class RobotContainer {
 
   private final Superstructure superstructure;
 
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    //private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     //private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-    private double MaxAngularRate = RotationsPerSecond.of(2).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    //private double MaxAngularRate = RotationsPerSecond.of(2).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
-    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    //private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+    //        .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+    //        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+    //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    //private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+    //        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
+    //private final Telemetry logger = new Telemetry(MaxSpeed);
 
 
 
@@ -184,7 +184,8 @@ public class RobotContainer {
         
         controller.transStick.button(4).onTrue(Commands.runOnce(drive::stopWithX, drive));
        */
-        drivetrain.setDefaultCommand(
+   /* 
+       drivetrain.setDefaultCommand(
           // Drivetrain will execute this command periodically
           drivetrain.applyRequest(() ->
             drive.withVelocityX(controller.getForward() * MaxSpeed) // Drive forward with negative Y (forward)
@@ -262,7 +263,7 @@ public class RobotContainer {
     // Max retraction position = -70
     // Staring configuration = 0 to -5
     // Max extension = 
-    controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
+    //controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
      
     // Scoring Positions
     controller.operator.a().onTrue(superstructure.goToL1()).onFalse(superstructure.goToL0());    
@@ -282,7 +283,7 @@ public class RobotContainer {
       
     //controller.operator.a().onTrue(superstructure.armVoltPos()).onFalse(superstructure.arm2Home());
     //controller.operator.rightTrigger(.90).whileTrue(superstructure.armVoltPosManual(() -> controller.operator.getRightY()));
-    //controller.operator.leftBumper().whileTrue(superstructure.armVoltVelManual(() -> controller.operator.getLeftY())).onFalse(superstructure.stopRollers());
+    controller.operator.leftBumper().whileTrue(superstructure.armVoltVelManual(() -> controller.operator.getLeftY())).onFalse(superstructure.stopRollers());
     //controller.operator.b().whileTrue(superstructure.armVoltVel());
     //controller.operator.leftBumper().onTrue(superstructure.testElevator()).onFalse(superstructure.goToL0());
     //controller.operator.rightBumper().whileTrue(superstructure.testElevatorManual(() -> controller.operator.getRightY()));

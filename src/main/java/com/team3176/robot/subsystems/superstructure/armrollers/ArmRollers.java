@@ -163,7 +163,7 @@ public class ArmRollers extends SubsystemBase {
 
   @Override
   public void periodic() {
-    io.updateLaserCanMeasurement();
+    //io.updateLaserCanMeasurement();
     io.updateInputs(inputs);
     if (HumanLoadTuneVolts.hasChanged(hashCode())) {
       HumanLoadVolts = HumanLoadTuneVolts.get();

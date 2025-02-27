@@ -51,7 +51,7 @@ public class ArmRollersIOTalon implements ArmRollersIO {
   private final StatusSignal<AngularVelocity> rollerVelocity;
   private final StatusSignal<Temperature> rollerTemp;
   private LaserCan lc;
-  private LaserCan.Measurement measurement;
+  //private LaserCan.Measurement measurement;
   public boolean hasCoral = false;
   private double coralDistance = 100; 
   
@@ -121,7 +121,7 @@ public class ArmRollersIOTalon implements ArmRollersIO {
     inputs.coralLaserCan = this.hasCoral;
     inputs.coralLaserCanDist = coralDistance;
   }
-
+/* 
   @Override
   public void updateLaserCanMeasurement() {
      this.measurement = lc.getMeasurement();
@@ -139,9 +139,9 @@ public class ArmRollersIOTalon implements ArmRollersIO {
       System.out.println("Oh no! The target is out of range, or we can't get a reliable measurement!");
       // You can still use distance_mm in here, if you're ok tolerating a clamped value or an unreliable measurement.
     */
-    }
+   // }
     
-  }
+ // }
 
   @Override
   public void setRollerVolts(double volts) {

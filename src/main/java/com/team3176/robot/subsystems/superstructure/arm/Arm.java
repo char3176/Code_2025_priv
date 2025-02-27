@@ -168,7 +168,8 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    io.updateLaserCanMeasurement();
+
+    //io.updateLaserCanMeasurement();
     io.updateInputs(inputs);
     if (HumanLoadTuneSetpoint.hasChanged(hashCode())) {
       HumanLoadSetpoint = HumanLoadTuneSetpoint.get();
