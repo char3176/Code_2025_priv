@@ -11,7 +11,8 @@ import com.team3176.robot.subsystems.superstructure.arm.Arm.POS;
 import com.team3176.robot.subsystems.superstructure.elevator.Elevator;
 import com.team3176.robot.util.LoggedTunableNumber;
 import com.team3176.robot.constants.SuperStructureConstants;
-
+import com.team3176.robot.util.LoggedTunableNumber;
+import com.team3176.robot.util.TunablePID;
 public class Superstructure {
   private static Superstructure instance;
   private Climb climb;
@@ -20,6 +21,8 @@ public class Superstructure {
   private final LoggedTunableNumber pivotTuneSetPoint, velTuneSetPoint, elevTunePositionSetPoint, climbTunePositionSetPoint;
   private final LoggedTunableNumber L1ElvSetpoint, L2ElvSetpoint, L3ElvSetpoint, L4ElvSetpoint;
   private final LoggedTunableNumber HumanLoadElvSetpoint;
+  private final LoggedTunableNumber HumanLoadTuneSetpoint, L0TuneSetpoint, L1TuneSetpoint, L2TuneSetpoint, L3TuneSetpoint, L4TuneSetpoint;
+  private final LoggedTunableNumber HumanLoadTuneVolts, L0TuneShootingVolts, L1TuneShootingVolts, L2TuneShootingVolts, L3TuneShootingVolts, L4TuneShootingVolts;
 
   public Superstructure() {
     climb = Climb.getInstance();
@@ -34,6 +37,18 @@ public class Superstructure {
     this.L2ElvSetpoint = new LoggedTunableNumber("Elevator/L2setpoint", 50);
     this.L3ElvSetpoint = new LoggedTunableNumber("Elevator/L3setpoint", 75);
     this.L4ElvSetpoint = new LoggedTunableNumber("Elevator/L4setpoint", 107);
+   this.HumanLoadTuneSetpoint = new LoggedTunableNumber("Arm/HumanLoadSetpoint", 0.20);
+    this.L0TuneSetpoint = new LoggedTunableNumber("Arm/L0Setpoint", 0.20);
+    this.L1TuneSetpoint = new LoggedTunableNumber("Arm/L1Setpoint", 0.20);
+    this.L2TuneSetpoint = new LoggedTunableNumber("Arm/L2Setpoint", 0.20);
+    this.L3TuneSetpoint = new LoggedTunableNumber("Arm/L3Setpoint", 0.20);
+    this.L4TuneSetpoint = new LoggedTunableNumber("Arm/L4Setpoint", 0.20);
+    this.HumanLoadTuneVolts = new LoggedTunableNumber("Arm/HumanLoadVolts", -0.5);
+    this.L0TuneShootingVolts = new LoggedTunableNumber("Arm/L0Volts", 0.20);
+    this.L1TuneShootingVolts = new LoggedTunableNumber("Arm/L1Volts", 0.20);
+    this.L2TuneShootingVolts = new LoggedTunableNumber("Arm/L2Volts", 0.20);
+    this.L3TuneShootingVolts = new LoggedTunableNumber("Arm/L3Volts", 0.20);
+    this.L4TuneShootingVolts = new LoggedTunableNumber("Arm/L4Volts", 0.20);
   }
 
   public Command armVoltPos() {
@@ -65,7 +80,7 @@ public class Superstructure {
   }
 
   public Command armVoltVel() {
-    return arm.runVelocity(()-> this.velTuneSetPoint.get());
+    return (arm.runVelocity(()-> this.velTuneSetPoint.get())).andThen(arm.stopRollers());
   }
 
   public Command armVoltVelManual(DoubleSupplier voltage) {
@@ -85,31 +100,33 @@ public class Superstructure {
   }
 
   public Command goToL0() {
-    return (elevator.goToL0().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L0_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0)));
   }
 
   public Command goToL1() {
-    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L1_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
   }
 
   public Command goToL2() {
-    return (elevator.goToL1().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L2))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L2_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(arm.setPosTrack(POS.L2)));
   }
 
   public Command goToL3() {
-    return (elevator.goToL3().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L3_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3)));
   }
 
   public Command goToL4() {
-    return (elevator.goToL4().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L4_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
   }
 
   public Command goToHumanLoad() {
-    return (elevator.goToHumanLoad().alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
+    //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> this.HumanLoadTuneSetpoint.get()).andThen(arm.setPosTrack(POS.HF))));
   }
 
   public Command runRollersIn () {
-    return (arm.runRollersIn()).until(() -> arm.haveCoral());
+    return arm.runVelocity(() -> this.HumanLoadTuneVolts.get());
+    //return (arm.runRollersIn(() -> this.HumanLoadTuneVolts.get()));//.until(() -> arm.haveCoral());
   }
 
 

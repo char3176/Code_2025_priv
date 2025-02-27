@@ -29,9 +29,9 @@ public class SuperStructureConstants {
   public static final double ARM_SIM_OFFSET = 63 + ARM_ZERO_POS;
   public static final double ARM_ENCODER_OFFSET = 0;
   public static final double CORAL_DISTANCE = 20;
-  public static final double ARM_HF_POS = 0.2;
+  public static final double ARM_HF_POS = 0.79;
   public static final double ARM_L0_POS = 0.2;
-  public static final double ARM_L1_POS = 0.2;
+  public static final double ARM_L1_POS = 0.3;
   public static final double ARM_L2_POS = 0.2;
   public static final double ARM_L3_POS = 0.2;
   public static final double ARM_L4_POS = 0.2;
@@ -52,11 +52,11 @@ public class SuperStructureConstants {
   public static final double ELEVATORLEADER_TOP_POS = 75 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_SIM_OFFSET = 63 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L0_POS = 0 + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_L1_POS = 25 + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_L1_POS = 8 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L2_POS = 50 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L3_POS = 75 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L4_POS = 107 + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_HF_POS = 30 + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_HF_POS = 0 + ELEVATORLEADER_ZERO_POS;
 
   /*
   public static final double ELEVATORRIGHT_kP = 0.006;

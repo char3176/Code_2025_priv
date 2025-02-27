@@ -13,7 +13,14 @@
 
 package com.team3176.robot;
 
+
+import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+///import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -30,6 +37,7 @@ import com.team3176.robot.constants.BaseConstants;
 import com.team3176.robot.generated.TunerConstants;
 import com.team3176.robot.subsystems.controller.Controller;
 import com.team3176.robot.subsystems.drivetrain.Drivetrain;
+import com.team3176.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
 import com.team3176.robot.subsystems.drivetrain.GyroIO;
 import com.team3176.robot.subsystems.drivetrain.GyroIOPigeon2;
 import com.team3176.robot.subsystems.superstructure.Superstructure;
@@ -37,6 +45,13 @@ import com.team3176.robot.subsystems.drivetrain.SwervepodIO;
 import com.team3176.robot.subsystems.drivetrain.SwervepodIOSim;
 import com.team3176.robot.subsystems.drivetrain.SwervepodIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,19 +61,43 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drivetrain drive;
+  //private final Drivetrain drive;
+
   private final Superstructure superstructure;
 
-  
+  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+
+    /* Setting up bindings for necessary control of the swerve drive platform */
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    private final Telemetry logger = new Telemetry(MaxSpeed);
+
+
 
   // Controller
   private final Controller controller = Controller.getInstance();
 
   // Dashboard inputs
-  private final LoggedDashboardChooser<Command> autoChooser;
+  //private final LoggedDashboardChooser<Command> autoChooser;
+
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    /* Path follower */
+   //private final SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer() { 
+
+      //autoChooser = AutoBuilder.buildAutoChooser("Tests");
+       // SmartDashboard.putData("Auto Mode", autoChooser);
+/* 
     switch (BaseConstants.getMode()) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -93,9 +132,11 @@ public class RobotContainer {
                 new SwervepodIO() {});
         break;
     }
+   */ 
 
     superstructure = Superstructure.getInstance();
-
+ 
+    /*
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -114,7 +155,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-
+    */
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -128,6 +169,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
   // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+        /*
         drive.setDefaultCommand(
             // Drivetrain will execute this command periodically
             //drive.applyRequest(() ->
@@ -140,7 +182,15 @@ public class RobotContainer {
         );
         
         controller.transStick.button(4).onTrue(Commands.runOnce(drive::stopWithX, drive));
-        
+       */
+         drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(controller.getForward() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(controller.getStrafe() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(controller.getSpin() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            )
+        );
         
         //controller.operator.a().whileTrue(drivetrain.applyRequest(() -> brake));
         //controller.operator.b().whileTrue(drivetrain.applyRequest(() ->
@@ -165,6 +215,7 @@ public class RobotContainer {
         //controller.rotStick.button(8).onTrue(drive.runOnce(() -> drive.seedFieldCentric()));
        
         // Reset gyro to 0° 
+        /* 
         controller.rotStick.button(8).onTrue(
             Commands.runOnce(
                     () ->
@@ -172,34 +223,38 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+        */
 
 
     // Climb buttons
-    controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> controller.operator.getLeftY()));
-    
+    // Max retraction position = -70
+    // Staring configuration = 0 to -5
+    // Max extension = 
+    controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
+     
     // Scoring Positions
     controller.operator.a().onTrue(superstructure.goToL1()).onFalse(superstructure.goToL0());    
     controller.operator.x().onTrue(superstructure.goToL2()).onFalse(superstructure.goToL0());    
     controller.operator.b().onTrue(superstructure.goToL3()).onFalse(superstructure.goToL0());    
-    controller.operator.b().onTrue(superstructure.goToL4()).onFalse(superstructure.goToL0());   
+    controller.operator.y().onTrue(superstructure.goToL4()).onFalse(superstructure.goToL0());   
     
     // Human Load Positions and Rollers
     controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
-    controller.operator.leftTrigger().onTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
+    controller.operator.leftTrigger(0.8).whileTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
 
     // Shoot
     controller.transStick.button(1).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
 
     
     
-    /* 
-    controller.operator.a().onTrue(superstructure.armVoltPos()).onFalse(superstructure.arm2Home());
-    controller.operator.rightTrigger(.90).whileTrue(superstructure.armVoltPosManual(() -> controller.operator.getRightY()));
-    controller.operator.leftTrigger(.90).whileTrue(superstructure.armVoltVelManual(() -> controller.operator.getLeftY()));
-    controller.operator.b().whileTrue(superstructure.armVoltVel());
-    controller.operator.x().onTrue(superstructure.testElevator()).onFalse(superstructure.goToL0());
-    controller.operator.rightBumper().whileTrue(superstructure.testElevatorManual(() -> controller.operator.getRightY()));
-    */
+      
+    //controller.operator.a().onTrue(superstructure.armVoltPos()).onFalse(superstructure.arm2Home());
+    //controller.operator.rightTrigger(.90).whileTrue(superstructure.armVoltPosManual(() -> controller.operator.getRightY()));
+    //controller.operator.leftBumper().whileTrue(superstructure.armVoltVelManual(() -> controller.operator.getLeftY())).onFalse(superstructure.stopRollers());
+    //controller.operator.b().whileTrue(superstructure.armVoltVel());
+    //controller.operator.leftBumper().onTrue(superstructure.testElevator()).onFalse(superstructure.goToL0());
+    //controller.operator.rightBumper().whileTrue(superstructure.testElevatorManual(() -> controller.operator.getRightY()));
+    
 
 
 
@@ -252,7 +307,7 @@ public class RobotContainer {
   }
 
   public void setBrake() {
-    superstructure.setPivotBrake();
+    //superstructure.setPivotBrake();
   }
 
 
@@ -261,7 +316,9 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return autoChooser.get();
+  /*public Command getAutonomousCommand() {
+   // return autoChooser.get();
+    //return autoChooser.getSelected();
   }
+*/
 }

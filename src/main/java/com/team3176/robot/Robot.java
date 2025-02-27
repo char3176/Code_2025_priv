@@ -28,7 +28,8 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -106,6 +107,10 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
   }
 
+  @Override
+  public void robotInit() {
+    SmartDashboard.putData(CommandScheduler.getInstance());
+  }
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
@@ -137,7 +142,7 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    autonomousCommand = robotContainer.getAutonomousCommand();
+    //autonomousCommand = robotContainer.getAutonomousCommand();
     robotContainer.setBrake();
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {

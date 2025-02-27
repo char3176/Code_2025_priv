@@ -159,8 +159,8 @@ public class Arm extends SubsystemBase {
       () -> {
         setRollerVolts(volts.getAsDouble());
       }, 
-      () -> { 
-        setRollerVolts(0); 
+      () -> {
+        setRollerVolts(0.0);
       });
   }
 
@@ -191,10 +191,10 @@ public class Arm extends SubsystemBase {
     }
   }
 
-  public Command runRollersIn() {
-    return this.run(
+  public Command runRollersIn(DoubleSupplier volts) {
+    return this.runOnce(
       () -> {
-        setRollerVolts(HumanLoadVolts);
+        setRollerVolts(volts.getAsDouble());
       });
   }
 
@@ -296,13 +296,13 @@ public class Arm extends SubsystemBase {
     if (pivot_pos <= 0.7) {
       commandVolts *= 1.6;
     }
-    commandVolts = MathUtil.clamp(commandVolts, -3.5, 2.0);
+    //commandVolts = MathUtil.clamp(commandVolts, -3.5, 2.0);
 
     Logger.recordOutput("Arm/PID_out", commandVolts);
     Logger.recordOutput("Arm/setpoint", this.pivotSetpoint);
     Logger.recordOutput("Arm/offsetPos", pivot_pos);
     // runPivot(commandVolts);
     pivotPID.checkParemeterUpdate();
-    lastRollerSpeed = inputs.rollerVelocityRadPerSec;
+    //lastRollerSpeed = inputs.rollerVelocityRadPerSec;
   }
 }
