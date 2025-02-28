@@ -126,12 +126,13 @@ public class Superstructure {
 
   public Command goToHumanLoad() {
     //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> this.HumanLoadTuneSetpoint.get()).andThen(arm.setPosTrack(POS.HF))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
   }
 
   public Command runRollersIn () {
-    return armrollers.runVelocity(() -> this.HumanLoadTuneVolts.get());
-    //return (arm.runRollersIn(() -> this.HumanLoadTuneVolts.get()));//.until(() -> arm.haveCoral());
+    return armrollers.runVelocity(() -> SuperStructureConstants.ARM_HF_VOLTS);
+    //return armrollers.runVelocity(() -> this.HumanLoadTuneVolts.get());
+    //return (arm.runRollersIn(() -> this.HumanLoadTuneVolts.get()));//.until(() -> armrollers.haveCoral());
   }
 
 

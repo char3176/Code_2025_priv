@@ -56,7 +56,7 @@ public class ArmIOTalon implements ArmIO {
   private final StatusSignal<Temperature> pivotTemp;
 
   private LaserCan lc;
-  private LaserCan.Measurement measurement;
+  //private LaserCan.Measurement measurement;
   public boolean hasCoral = false;
   private double coralDistance = 100; 
   
@@ -174,6 +174,7 @@ public class ArmIOTalon implements ArmIO {
     inputs.coralLaserCanDist = coralDistance;
   }
 
+  /*
   @Override
   public void updateLaserCanMeasurement() {
      this.measurement = lc.getMeasurement();
@@ -191,9 +192,9 @@ public class ArmIOTalon implements ArmIO {
       System.out.println("Oh no! The target is out of range, or we can't get a reliable measurement!");
       // You can still use distance_mm in here, if you're ok tolerating a clamped value or an unreliable measurement.
     */
-    }
+   // }
     
-  }
+  //}
 
   @Override
   public void setPivotVolts(double volts) {

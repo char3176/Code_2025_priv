@@ -48,7 +48,7 @@ public class ClimbIOTalon implements ClimbIO {
     configs.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
     configs.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
         SuperStructureConstants.CLIMB_MAXDEPLOY_POS;
-    configs.SoftwareLimitSwitch.ReverseSoftLimitEnable = false;
+    configs.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
     configs.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
         SuperStructureConstants.CLIMB_MAXRETRACT_POS;
     configs.MotorOutput.NeutralMode = NeutralModeValue.Brake;

@@ -107,13 +107,13 @@ public class ArmRollers extends SubsystemBase {
   private void runShoot() {
     switch (currentPosTrack) {
       case L0:
-        setRollerVolts(L0ShootingVolts);
+        setRollerVolts(3);
         break;
       case L1:
-        setRollerVolts(L1ShootingVolts);
+        setRollerVolts(4);
         break;
       case L2:
-        setRollerVolts(L2ShootingVolts);
+        setRollerVolts(4);
         break;
       case L3:
         setRollerVolts(L3ShootingVolts);
@@ -127,7 +127,7 @@ public class ArmRollers extends SubsystemBase {
   public Command runRollersIn(DoubleSupplier volts) {
     return this.runOnce(
       () -> {
-        setRollerVolts(volts.getAsDouble());
+        setRollerVolts(-1 * volts.getAsDouble());
       });
   }
 
