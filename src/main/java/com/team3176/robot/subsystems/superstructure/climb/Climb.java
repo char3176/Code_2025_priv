@@ -60,7 +60,7 @@ public class Climb extends SubsystemBase {
   public Command moveClimbPosition(DoubleSupplier delta) {
     return this.runEnd(
         () -> {
-          io.setVoltage((12 * delta.getAsDouble()));
+          io.setVoltage((12 * -delta.getAsDouble()));
         },
         () -> io.setVoltage(0.0));
   }

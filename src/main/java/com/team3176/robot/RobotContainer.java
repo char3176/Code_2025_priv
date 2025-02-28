@@ -267,8 +267,8 @@ public class RobotContainer {
     // Scoring Positions
     controller.operator.a().onTrue(superstructure.goToL1()).onFalse(superstructure.goToL0());    
     controller.operator.x().onTrue(superstructure.goToL2()).onFalse(superstructure.goToL0());    
-    controller.operator.b().onTrue(superstructure.goToL3()).onFalse(superstructure.goToL0());    
-    controller.operator.y().onTrue(superstructure.goToL4()).onFalse(superstructure.goToL0());   
+    controller.operator.y().onTrue(superstructure.goToL3()).onFalse(superstructure.goToL0());    
+    controller.operator.b().onTrue(superstructure.goToL4()).onFalse(superstructure.goToL0());   
     
     // Human Load Positions and Rollers
     controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
