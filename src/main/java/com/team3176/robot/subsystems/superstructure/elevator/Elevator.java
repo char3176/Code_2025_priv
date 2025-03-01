@@ -30,7 +30,7 @@ public class Elevator extends SubsystemBase {
   private LoggedTunableNumber LeftClimbHeight = new LoggedTunableNumber("climbLeftHeight", 0);
   private LoggedTunableNumber AmpClimbHeight = new LoggedTunableNumber("climb/climbAmpHeight", 60);
   private LoggedTunableNumber L0TuneElvSetpoint = new LoggedTunableNumber("Elevator/L0Setpoint", SuperStructureConstants.ELEVATORLEADER_L0_POS);
-  private LoggedTunableNumber L1TuneElvSetpoint = new LoggedTunableNumber("Elevator/L1Setpoint", 10);
+  private LoggedTunableNumber L1TuneElvSetpoint = new LoggedTunableNumber("Elevator/L1Setpoint", SuperStructureConstants.ELEVATORLEADER_L1_POS);
   private LoggedTunableNumber L2TuneElvSetpoint = new LoggedTunableNumber("Elevator/L2Setpoint", SuperStructureConstants.ELEVATORLEADER_L2_POS);
   private LoggedTunableNumber L3TuneElvSetpoint = new LoggedTunableNumber("Elevator/L3Setpoint", SuperStructureConstants.ELEVATORLEADER_L3_POS);
   private LoggedTunableNumber L4TuneElvSetpoint = new LoggedTunableNumber("Elevator/L4Setpoint", SuperStructureConstants.ELEVATORLEADER_L4_POS);

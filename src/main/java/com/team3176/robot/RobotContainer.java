@@ -263,6 +263,8 @@ public class RobotContainer {
     // Staring configuration = 0 to -5
     // Max extension = 
     controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
+    controller.transStick.button(16).and(controller.transStick.button(15)).whileTrue(superstructure.transStickClimbExtend());
+    controller.transStick.button(16).and(controller.transStick.button(14)).whileTrue(superstructure.transStickClimbRetract());
      
     // Scoring Positions
     controller.operator.a().onTrue(superstructure.goToL1()); //.onFalse(superstructure.goToL0()); 
