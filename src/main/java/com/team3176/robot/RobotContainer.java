@@ -348,9 +348,14 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  /*public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
    // return autoChooser.get();
     //return autoChooser.getSelected();
+    //return null;
+    return drivetrain.applyRequest(() ->
+    drive.withVelocityX(-0.5 * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
+      .withRotationalRate(0 * MaxAngularRate)).withTimeout(3);
   }
-*/
+
 }
