@@ -107,7 +107,7 @@ public class ArmRollers extends SubsystemBase {
   private void runShoot() {
     switch (currentPosTrack) {
       case L0:
-        setRollerVolts(3);
+        setRollerVolts(2.5);
         break;
       case L1:
         setRollerVolts(4);
