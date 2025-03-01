@@ -265,13 +265,14 @@ public class RobotContainer {
     controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
      
     // Scoring Positions
-    controller.operator.a().onTrue(superstructure.goToL1()); //.onFalse(superstructure.goToL0());    
+    controller.operator.a().onTrue(superstructure.goToL1()); //.onFalse(superstructure.goToL0()); 
     controller.operator.x().onTrue(superstructure.goToL2()); //.onFalse(superstructure.goToL0());    
     controller.operator.y().onTrue(superstructure.goToL3()); //.onFalse(superstructure.goToL0());    
     controller.operator.b().onTrue(superstructure.goToL4()); //.onFalse(superstructure.goToL0());   
     controller.operator.pov(180).onTrue(superstructure.goToL0()); 
+    controller.transStick.button(11).onTrue(superstructure.goToL0());   
     // Human Load Positions and Rollers
-    controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
+    controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()); //.onFalse(superstructure.goToL0());
     controller.operator.leftTrigger(0.8).whileTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
 
     // Shoot

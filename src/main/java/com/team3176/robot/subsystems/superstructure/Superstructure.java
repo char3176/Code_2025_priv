@@ -153,6 +153,18 @@ public class Superstructure {
     //return climb.moveClimbPosition(() -> this.climbTunePositionSetPoint.get());
   }
 
+
+  public Command transStickClimbExtend() {
+    return climb.moveClimbPosition(() -> 1);
+    //return climb.moveClimbPosition(() -> this.climbTunePositionSetPoint.get());
+  }
+
+  public Command transStickClimbRetract() {
+    return climb.moveClimbPosition(() -> -1);
+    //return climb.moveClimbPosition(() -> this.climbTunePositionSetPoint.get());
+  }
+
+
   /* 
   public Command getProcessorCoralLeftAuto() {
     return Drivetrain.getInstance()
