@@ -8,7 +8,7 @@ import java.util.function.DoubleSupplier;
 import com.team3176.robot.subsystems.drivetrain.Drivetrain;
 import com.team3176.robot.subsystems.superstructure.climb.Climb;
 import com.team3176.robot.subsystems.superstructure.arm.Arm;
-import com.team3176.robot.subsystems.superstructure.arm.Arm.POS;
+import com.team3176.robot.subsystems.superstructure.armrollers.ArmRollers.POS;
 import com.team3176.robot.subsystems.superstructure.armrollers.ArmRollers;
 import com.team3176.robot.subsystems.superstructure.elevator.Elevator;
 import com.team3176.robot.util.LoggedTunableNumber;
@@ -87,10 +87,7 @@ public class Superstructure {
   public Command armVoltVel() {
     return (armrollers.runVelocity(()-> this.velTuneSetPoint.get())).andThen(armrollers.stopRollers());
   }
-
-  public Command armVoltVelManual(DoubleSupplier voltage) {
-    return armrollers.runVelocity(() -> voltage.getAsDouble());
-  }
+public Command armVoltVelManual(DoubleSupplier voltage) { return armrollers.runVelocity(() -> voltage.getAsDouble()); }
 
   public Command armRevVoltVel() {
     return armrollers.runVelocity(()->-1 * this.velTuneSetPoint.get());
@@ -105,30 +102,28 @@ public class Superstructure {
   }
 
   public Command goToL0() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L0_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(arm.setPosTrack(POS.L0)));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L0_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L0_POS).andThen(armrollers.setPosTrack(POS.L0)));
   }
 
   public Command goToL1() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L1_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(arm.setPosTrack(POS.L1))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L1_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L1_POS).andThen(armrollers.setPosTrack(POS.L1))));
   }
 
   public Command goToL2() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L2_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(arm.setPosTrack(POS.L2)));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L2_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L2_POS).andThen(armrollers.setPosTrack(POS.L2)));
   }
 
   public Command goToL3() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L3_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(arm.setPosTrack(POS.L3)));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L3_POS)).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L3_POS).andThen(armrollers.setPosTrack(POS.L3)));
   }
 
   public Command goToL4() {
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L4_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(arm.setPosTrack(POS.L4))));
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_L4_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_L4_POS).andThen(armrollers.setPosTrack(POS.L4))));
   }
 
   public Command goToHumanLoad() {
     //return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
-    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(arm.setPosTrack(POS.HF))));
-  }
-
+    return (elevator.goToPosition(() -> SuperStructureConstants.ELEVATORLEADER_HF_POS).alongWith(arm.runPosition(() -> SuperStructureConstants.ARM_HF_POS).andThen(armrollers.setPosTrack(POS.HF)))); }
   public Command runRollersIn () {
     return armrollers.runVelocity(() -> SuperStructureConstants.ARM_HF_VOLTS);
     //return armrollers.runVelocity(() -> this.HumanLoadTuneVolts.get());
