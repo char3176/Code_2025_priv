@@ -42,12 +42,12 @@ public class ArmRollers extends SubsystemBase {
   private ArmRollers(ArmRollersIO io) {
     this.io = io;
     this.rollerVolts = new LoggedTunableNumber("Arm/rollerVolts", 7.0);
-    this.HumanLoadTuneVolts = new LoggedTunableNumber("Arm/HumanLoadVolts", 0.20);
-    this.L0TuneShootingVolts = new LoggedTunableNumber("Arm/L0Volts", 0.20);
-    this.L1TuneShootingVolts = new LoggedTunableNumber("Arm/L1Volts", 0.20);
-    this.L2TuneShootingVolts = new LoggedTunableNumber("Arm/L2Volts", 0.20);
-    this.L3TuneShootingVolts = new LoggedTunableNumber("Arm/L3Volts", 0.20);
-    this.L4TuneShootingVolts = new LoggedTunableNumber("Arm/L4Volts", 0.20);
+    this.HumanLoadTuneVolts = new LoggedTunableNumber("Arm/HumanLoadVolts", SuperStructureConstants.ARM_HF_VOLTS);
+    this.L0TuneShootingVolts = new LoggedTunableNumber("Arm/L0Volts", SuperStructureConstants.ARM_L0_SHOOTINGVOLTS);
+    this.L1TuneShootingVolts = new LoggedTunableNumber("Arm/L1Volts", SuperStructureConstants.ARM_L1_SHOOTINGVOLTS);
+    this.L2TuneShootingVolts = new LoggedTunableNumber("Arm/L2Volts", SuperStructureConstants.ARM_L2_SHOOTINGVOLTS);
+    this.L3TuneShootingVolts = new LoggedTunableNumber("Arm/L3Volts", SuperStructureConstants.ARM_L3_SHOOTINGVOLTS);
+    this.L4TuneShootingVolts = new LoggedTunableNumber("Arm/L4Volts", SuperStructureConstants.ARM_L4_SHOOTINGVOLTS);
 
 
     HumanLoadVolts = SuperStructureConstants.ARM_HF_VOLTS;
@@ -107,16 +107,16 @@ public class ArmRollers extends SubsystemBase {
   private void runShoot() {
     switch (currentPosTrack) {
       case L0:
-        setRollerVolts(2.5);
+        setRollerVolts(12);
         break;
       case L1:
-        setRollerVolts(4);
+        setRollerVolts(6);
         break;
       case L2:
-        setRollerVolts(4);
+        setRollerVolts(5);
         break;
       case L3:
-        setRollerVolts(L3ShootingVolts);
+        setRollerVolts(6);
         break;
       case L4:
         setRollerVolts(L4ShootingVolts);
@@ -127,14 +127,14 @@ public class ArmRollers extends SubsystemBase {
   public Command runRollersIn(DoubleSupplier volts) {
     return this.runOnce(
       () -> {
-        setRollerVolts(-1 * volts.getAsDouble());
+        setRollerVolts(volts.getAsDouble());
       });
   }
 
 
 
   private void setRollerVolts(double volts) {
-    io.setRollerVolts(12 * volts);
+    io.setRollerVolts(volts);
   }
 
     public void setCoast() {

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
-import com.team3176.robot.constants.BaseConstants;
+
 import com.team3176.robot.constants.BaseConstants.Mode;
 import com.team3176.robot.constants.BaseConstants.RobotType;
 import com.team3176.robot.constants.*;
@@ -29,12 +29,12 @@ public class Elevator extends SubsystemBase {
   private TunablePID rightPIDController = new TunablePID("climbRight", 1, 0, 0);
   private LoggedTunableNumber LeftClimbHeight = new LoggedTunableNumber("climbLeftHeight", 0);
   private LoggedTunableNumber AmpClimbHeight = new LoggedTunableNumber("climb/climbAmpHeight", 60);
-  private LoggedTunableNumber L0TuneElvSetpoint = new LoggedTunableNumber("Elevator/L0Setpoint", 0);
-  private LoggedTunableNumber L1TuneElvSetpoint = new LoggedTunableNumber("Elevator/L1Setpoint", 25);
-  private LoggedTunableNumber L2TuneElvSetpoint = new LoggedTunableNumber("Elevator/L2Setpoint", 50);
-  private LoggedTunableNumber L3TuneElvSetpoint = new LoggedTunableNumber("Elevator/L3Setpoint", 75);
-  private LoggedTunableNumber L4TuneElvSetpoint = new LoggedTunableNumber("Elevator/L3Setpoint", 107);
-  private LoggedTunableNumber HumanLoadTuneElvSetpoint = new LoggedTunableNumber("Elevator/HumanLoadSetpoint",0);
+  private LoggedTunableNumber L0TuneElvSetpoint = new LoggedTunableNumber("Elevator/L0Setpoint", SuperStructureConstants.ELEVATORLEADER_L0_POS);
+  private LoggedTunableNumber L1TuneElvSetpoint = new LoggedTunableNumber("Elevator/L1Setpoint", 10);
+  private LoggedTunableNumber L2TuneElvSetpoint = new LoggedTunableNumber("Elevator/L2Setpoint", SuperStructureConstants.ELEVATORLEADER_L2_POS);
+  private LoggedTunableNumber L3TuneElvSetpoint = new LoggedTunableNumber("Elevator/L3Setpoint", SuperStructureConstants.ELEVATORLEADER_L3_POS);
+  private LoggedTunableNumber L4TuneElvSetpoint = new LoggedTunableNumber("Elevator/L4Setpoint", SuperStructureConstants.ELEVATORLEADER_L4_POS);
+  private LoggedTunableNumber HumanLoadTuneElvSetpoint = new LoggedTunableNumber("Elevator/HumanLoadSetpoint",SuperStructureConstants.ELEVATORLEADER_HF_POS);
   private int LogSkipCounter;
   private double desiredSetpoint;
   private double HumanLoadElvSetpoint, L0ElvSetpoint, L1ElvSetpoint, L2ElvSetpoint, L3ElvSetpoint, L4ElvSetpoint;

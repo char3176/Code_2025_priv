@@ -355,7 +355,12 @@ public class RobotContainer {
     return drivetrain.applyRequest(() ->
     drive.withVelocityX(-0.5 * MaxSpeed) // Drive forward with negative Y (forward)
       .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
-      .withRotationalRate(0 * MaxAngularRate)).withTimeout(3);
+      .withRotationalRate(0 * MaxAngularRate)).withTimeout(1).andThen(
+            drivetrain.applyRequest(() ->   
+            drive.withVelocityX(0 * MaxSpeed) // Drive forward with negative Y (forward)
+              .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
+              .withRotationalRate(0 * MaxAngularRate))
+      );
   }
 
 }

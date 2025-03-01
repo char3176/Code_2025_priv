@@ -32,15 +32,15 @@ public class SuperStructureConstants {
   public static final double ARM_HF_POS = 0.79;
   public static final double ARM_L0_POS = 0.2;
   public static final double ARM_L1_POS = 0.34;
-  public static final double ARM_L2_POS = 0.05;
-  public static final double ARM_L3_POS = 0.05;
+  public static final double ARM_L2_POS = 0.2;
+  public static final double ARM_L3_POS = 0.2;
   public static final double ARM_L4_POS = 0.1;
-  public static final double ARM_HF_VOLTS = -0.5;
-  public static final double ARM_L0_SHOOTINGVOLTS = 3;
-  public static final double ARM_L1_SHOOTINGVOLTS = 1;
-  public static final double ARM_L2_SHOOTINGVOLTS = 12;
-  public static final double ARM_L3_SHOOTINGVOLTS = 12;
-  public static final double ARM_L4_SHOOTINGVOLTS = 12;
+  public static final double ARM_HF_VOLTS = -6;
+  public static final double ARM_L0_SHOOTINGVOLTS = 12;
+  public static final double ARM_L1_SHOOTINGVOLTS = 12;
+  public static final double ARM_L2_SHOOTINGVOLTS = 6;
+  public static final double ARM_L3_SHOOTINGVOLTS = 5;
+  public static final double ARM_L4_SHOOTINGVOLTS = 6;
 
   public static final double ELEVATORLEADERj_kP = 0.006;
   public static final double ELEVATORLEADER_kP = 0.006;
@@ -50,11 +50,11 @@ public class SuperStructureConstants {
   public static final double ELEVATORLEADER_TOLERANCE = 3;
   public static final double ELEVATORLEADER_ZERO_POS = 0.0;
   public static final double ELEVATORLEADER_TOP_POS = 75 + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_SIM_OFFSET = 63 + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_SIM_OFFSET = 62 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L0_POS = 0 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L1_POS = 0 + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_L2_POS = 52  + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_L3_POS = 70 + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_L2_POS = 38  + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_L3_POS = 60 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L4_POS = 107 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_HF_POS = 0 + ELEVATORLEADER_ZERO_POS;
 

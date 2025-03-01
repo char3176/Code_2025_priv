@@ -54,12 +54,12 @@ public class Arm extends SubsystemBase {
     this.io = io;
     this.pivotPID = new TunablePID("ArmPivot", 3.0, 0.0, 0.0);
     this.pivotTuneSetPoint = new LoggedTunableNumber("Arm/pivotSetpoint", 0);
-    this.HumanLoadTuneSetpoint = new LoggedTunableNumber("Arm/HumanLoadSetpoint", 0.20);
-    this.L0TuneSetpoint = new LoggedTunableNumber("Arm/L0Setpoint", 0.20);
-    this.L1TuneSetpoint = new LoggedTunableNumber("Arm/L1Setpoint", 0.20);
-    this.L2TuneSetpoint = new LoggedTunableNumber("Arm/L2Setpoint", 0.20);
-    this.L3TuneSetpoint = new LoggedTunableNumber("Arm/L3Setpoint", 0.20);
-    this.L4TuneSetpoint = new LoggedTunableNumber("Arm/L4Setpoint", 0.20);
+    this.HumanLoadTuneSetpoint = new LoggedTunableNumber("Arm/HumanLoadSetpoint", SuperStructureConstants.ARM_HF_POS);
+    this.L0TuneSetpoint = new LoggedTunableNumber("Arm/L0Setpoint", SuperStructureConstants.ARM_L0_POS);
+    this.L1TuneSetpoint = new LoggedTunableNumber("Arm/L1Setpoint", SuperStructureConstants.ARM_L1_POS);
+    this.L2TuneSetpoint = new LoggedTunableNumber("Arm/L2Setpoint", SuperStructureConstants.ARM_L2_POS);
+    this.L3TuneSetpoint = new LoggedTunableNumber("Arm/L3Setpoint", SuperStructureConstants.ARM_L3_POS);
+    this.L4TuneSetpoint = new LoggedTunableNumber("Arm/L4Setpoint", SuperStructureConstants.ARM_L4_POS);
     this.pivotHome = inputs.pivotPositionRot;
 
 
