@@ -357,19 +357,26 @@ public class RobotContainer {
    // return autoChooser.get();
     //return autoChooser.getSelected();
     //return null;
-    //double direction = 1; 
-    //var myAlliance = DriverStation.getAlliance();
-    //if (myAlliance.get() == Alliance.Red) { direction = -1; }
-    //if (myAlliance.get() == Alliance.Blue) { direction = 1; }
-    return drivetrain.applyRequest(() -> 
+    double direction = 1; 
+    var myAlliance = DriverStation.getAlliance();
+    if (myAlliance.get() == Alliance.Blue) { return drivetrain.applyRequest(() -> 
     drive.withVelocityX(-0.5 * 1 * MaxSpeed) // Drive forward with negative Y (forward)
       .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
       .withRotationalRate(0 * MaxAngularRate)).withTimeout(1).andThen(
             drivetrain.applyRequest( () ->   
             drive.withVelocityX(0 * MaxSpeed) // Drive forward with negative Y (forward)
               .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
-              .withRotationalRate(0 * MaxAngularRate))
-      );
+              .withRotationalRate(0 * MaxAngularRate)));
+    }
+    if (myAlliance.get() == Alliance.Red) { return drivetrain.applyRequest(() -> 
+    drive.withVelocityX(-0.5 * -1 * MaxSpeed) // Drive forward with negative Y (forward)
+      .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
+      .withRotationalRate(0 * MaxAngularRate)).withTimeout(1).andThen(
+            drivetrain.applyRequest( () ->   
+            drive.withVelocityX(0 * MaxSpeed) // Drive forward with negative Y (forward)
+              .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
+              .withRotationalRate(0 * MaxAngularRate)));   
+  } else { return null; }
   }
 
 }
