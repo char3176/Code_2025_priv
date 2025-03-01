@@ -53,7 +53,7 @@ public class SuperStructureConstants {
   public static final double ELEVATORLEADER_SIM_OFFSET = 62 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L0_POS = 0 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L1_POS = 0 + ELEVATORLEADER_ZERO_POS;
-  public static final double ELEVATORLEADER_L2_POS = 32  + ELEVATORLEADER_ZERO_POS;
+  public static final double ELEVATORLEADER_L2_POS = 30  + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L3_POS = 55 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_L4_POS = 107 + ELEVATORLEADER_ZERO_POS;
   public static final double ELEVATORLEADER_HF_POS = 0 + ELEVATORLEADER_ZERO_POS;

@@ -110,13 +110,13 @@ public class ArmRollers extends SubsystemBase {
         setRollerVolts(12);
         break;
       case L1:
-        setRollerVolts(10);
+        setRollerVolts(6);
         break;
       case L2:
         setRollerVolts(8);
         break;
       case L3:
-        setRollerVolts(10);
+        setRollerVolts(8);
         break;
       case L4:
         setRollerVolts(10);
