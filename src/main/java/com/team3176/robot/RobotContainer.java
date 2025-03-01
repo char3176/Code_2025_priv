@@ -63,7 +63,7 @@ public class RobotContainer {
   // Subsystems
   //private final Drivetrain drive;
 
-  private final Superstructure superstructure;
+ // private final Superstructure superstructure;
 
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     //private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
@@ -135,7 +135,7 @@ public class RobotContainer {
     }
    */ 
 
-    superstructure = Superstructure.getInstance();
+    //superstructure = Superstructure.getInstance();
  
     /*
     // Set up auto routines
@@ -262,20 +262,20 @@ public class RobotContainer {
     // Max retraction position = -70
     // Staring configuration = 0 to -5
     // Max extension = 
-    controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
+//    controller.operator.leftBumper().whileTrue(superstructure.testClimbManual(() -> -controller.operator.getLeftY()));
      
     // Scoring Positions
-    controller.operator.a().onTrue(superstructure.goToL1()); //.onFalse(superstructure.goToL0());    
-    controller.operator.x().onTrue(superstructure.goToL2()); //.onFalse(superstructure.goToL0());    
-    controller.operator.y().onTrue(superstructure.goToL3()); //.onFalse(superstructure.goToL0());    
-    controller.operator.b().onTrue(superstructure.goToL4()); //.onFalse(superstructure.goToL0());   
-    controller.operator.pov(180).onTrue(superstructure.goToL0()); 
+//    controller.operator.a().onTrue(superstructure.goToL1()); //.onFalse(superstructure.goToL0());    
+//    controller.operator.x().onTrue(superstructure.goToL2()); //.onFalse(superstructure.goToL0());    
+//    controller.operator.y().onTrue(superstructure.goToL3()); //.onFalse(superstructure.goToL0());    
+//    controller.operator.b().onTrue(superstructure.goToL4()); //.onFalse(superstructure.goToL0());   
+//    controller.operator.pov(180).onTrue(superstructure.goToL0()); 
     // Human Load Positions and Rollers
-    controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
-    controller.operator.leftTrigger(0.8).whileTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
+//    controller.operator.rightBumper().onTrue(superstructure.goToHumanLoad()).onFalse(superstructure.goToL0());
+//    controller.operator.leftTrigger(0.8).whileTrue(superstructure.runRollersIn()).onFalse(superstructure.stopRollers());
 
     // Shoot
-    controller.transStick.button(1).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
+//    controller.transStick.button(1).onTrue(superstructure.shoot()).onFalse(superstructure.stopRollers());
 
     
     
@@ -335,7 +335,7 @@ public class RobotContainer {
 
 
   public void setCoast() {
-    superstructure.setPivotCoast();
+//    superstructure.setPivotCoast();
   }
 
   public void setBrake() {
@@ -348,9 +348,13 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  /*public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
    // return autoChooser.get();
-    //return autoChooser.getSelected();
+   // return autoChooser.getSelected();
+   return (drivetrain.applyRequest(() ->
+            drive.withVelocityX(-0.5 * MaxSpeed) // Drive forward with negative Y (forward)
+              .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
+              .withRotationalRate(0 * MaxAngularRate)).withTimeout(8));
   }
-*/
+
 }
