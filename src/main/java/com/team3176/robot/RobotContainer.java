@@ -30,6 +30,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import com.team3176.robot.commands.DriveCommands;
 import com.team3176.robot.constants.BaseConstants;
@@ -355,10 +357,14 @@ public class RobotContainer {
    // return autoChooser.get();
     //return autoChooser.getSelected();
     //return null;
+    int direction = 1; 
+    Alliance myAlliance = DriverStation.getAlliance();
+    if (myAlliance == Alliance.Red) { direction = -1; }
+    if (myAllliance == Alliance.Blue) { direction = 1; }
     return drivetrain.applyRequest(() ->
     drive.withVelocityX(-0.5 * MaxSpeed) // Drive forward with negative Y (forward)
       .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
-      .withRotationalRate(0 * MaxAngularRate)).withTimeout(1).andThen(
+      .withRotationalRate(0 * MaxAngularRate)).withTimeout(direction).andThen(
             drivetrain.applyRequest(() ->   
             drive.withVelocityX(0 * MaxSpeed) // Drive forward with negative Y (forward)
               .withVelocityY(0 * MaxSpeed) // Drive left with negative X (left)
