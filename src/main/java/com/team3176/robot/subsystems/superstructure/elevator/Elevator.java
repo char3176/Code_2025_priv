@@ -155,7 +155,7 @@ public class Elevator extends SubsystemBase {
   public Command goToPositionManual(DoubleSupplier position) {
     return this.runEnd(
        () -> {
-        io.setLeftVoltage(6* position.getAsDouble());
+        io.setLeftVoltage(-1 * 6 * position.getAsDouble());
       },
       () -> {
         io.setLeftVoltage(0.0);

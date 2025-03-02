@@ -25,10 +25,9 @@ public class Arm extends SubsystemBase {
   private final TunablePID pivotPID;
   private Timer deployTime = new Timer();
   private double pivotSetpoint;
-  private final double DEPLOY_POS = 2.1;
   private double pivot_offset = 0;
   private boolean ishomed = false;
-  private double pivotHome = 0.2;
+  private double pivotHome = SuperStructureConstants.ARM_L0_POS;
   private double HumanLoadSetpoint, L0Setpoint, L1Setpoint, L2Setpoint, L3Setpoint, L4Setpoint;
   public enum POS {
     HF,
@@ -65,7 +64,7 @@ public class Arm extends SubsystemBase {
 
     HumanLoadSetpoint = SuperStructureConstants.ARM_HF_POS;
     L0Setpoint = SuperStructureConstants.ARM_L0_POS;
-    L1Setpoint = SuperStructureConstants.ARM_L0_POS;
+    L1Setpoint = SuperStructureConstants.ARM_L1_POS;
     L2Setpoint = SuperStructureConstants.ARM_L2_POS;
     L3Setpoint = SuperStructureConstants.ARM_L3_POS;
     L4Setpoint = SuperStructureConstants.ARM_L4_POS;
@@ -183,7 +182,7 @@ public class Arm extends SubsystemBase {
       L2Setpoint = L2TuneSetpoint.get();
     }
     if (L3TuneSetpoint.hasChanged(hashCode())) {
-      L2Setpoint = L2TuneSetpoint.get();
+      L3Setpoint = L3TuneSetpoint.get();
     }
     if (L4TuneSetpoint.hasChanged(hashCode())) {
       L4Setpoint = L4TuneSetpoint.get();
