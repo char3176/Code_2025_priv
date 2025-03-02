@@ -34,7 +34,7 @@ public class SuperStructureConstants {
   public static final double ARM_L1_POS = 0.34;
   public static final double ARM_L2_POS = 0.2;
   public static final double ARM_L3_POS = 0.2;
-  public static final double ARM_L4_POS = 0.1;
+  public static final double ARM_L4_POS = 0.07;
   public static final double ARM_HF_VOLTS = -6;
   public static final double ARM_L0_SHOOTINGVOLTS = 12;
   public static final double ARM_L1_SHOOTINGVOLTS = 12;
