@@ -29,12 +29,12 @@ public class SuperStructureConstants {
   public static final double ARM_SIM_OFFSET = 63 + ARM_ZERO_POS;
   public static final double ARM_ENCODER_OFFSET = 0;
   public static final double CORAL_DISTANCE = 20;
-  public static final double ARM_HF_POS = 0.77;
+  public static final double ARM_HF_POS = 0.80;
   public static final double ARM_L0_POS = 0.16;
   public static final double ARM_L1_POS = 0.34;
   public static final double ARM_L2_POS = 0.16;
   public static final double ARM_L3_POS = 0.14;
-  public static final double ARM_L4_POS = 0.05;
+  public static final double ARM_L4_POS = 0.075;
   public static final double ARM_HF_VOLTS = -6;
   public static final double ARM_L0_SHOOTINGVOLTS = 12;
   public static final double ARM_L1_SHOOTINGVOLTS = 12;

@@ -44,6 +44,7 @@ public class ArmIOTalon implements ArmIO {
   VoltageOut pivotVolts = new VoltageOut(0.0);
   PositionVoltage voltPosition = new PositionVoltage(0);
   private Rotation2d encoderOffset; 
+  private double pivot_pos_offset = 0;
   
   DigitalInput pivotLinebreak;
 
@@ -89,7 +90,7 @@ public class ArmIOTalon implements ArmIO {
     var pivotEncoderConfig = new CANcoderConfiguration();
     encoderOffset = Rotation2d.fromDegrees(SuperStructureConstants.ARM_ENCODER_OFFSET);
     //pivotEncoderConfig.MagnetSensor.MagnetOffset = encoderOffset.getRotations();
-    ;
+    
 
     //armPivotEncoder.getConfigurator().apply(pivotEncoderConfig);
 
@@ -109,7 +110,7 @@ public class ArmIOTalon implements ArmIO {
     pivotConfigs.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     pivotConfigs.SoftwareLimitSwitch.ForwardSoftLimitThreshold =
-        1.2;
+        1.8;
     pivotConfigs.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
     pivotConfigs.SoftwareLimitSwitch.ReverseSoftLimitThreshold =
         0.2;
@@ -122,9 +123,12 @@ public class ArmIOTalon implements ArmIO {
     pivotCurrentAmpsStator = pivotController.getStatorCurrent();
     pivotCurrentAmpsSupply = pivotController.getSupplyCurrent();
     pivotVelocity = pivotController.getVelocity();
-    pivotPosition = pivotController.getPosition();
+    pivotPosition = armPivotEncoder.getPositionSinceBoot();
     pivotAbsolutePosition = armPivotEncoder.getAbsolutePosition();
     pivotTemp = pivotController.getDeviceTemp();
+
+    pivot_pos_offset = armPivotEncoder.getPosition().getValueAsDouble();
+
 
     BaseStatusSignal.setUpdateFrequencyForAll(
         50,
@@ -160,7 +164,9 @@ public class ArmIOTalon implements ArmIO {
     inputs.pivotAmpsSupply = pivotCurrentAmpsSupply.getValueAsDouble();
     inputs.pivotTempCelcius = pivotTemp.getValueAsDouble();
     inputs.pivotPositionDeg = Units.rotationsToDegrees(pivotPosition.getValueAsDouble());
-    inputs.pivotPositionRot = pivotPosition.getValueAsDouble();
+    inputs.pivot_pos_offset = pivot_pos_offset;
+    inputs.pivotPositionRot = armPivotEncoder.getPosition().getValueAsDouble() - pivot_pos_offset;
+    inputs.pivotPositionRotREAL = armPivotEncoder.getPosition().getValueAsDouble(); 
     inputs.pivotVelocityRadPerSec = Units.rotationsToRadians(pivotVelocity.getValueAsDouble());
 
     inputs.pivotAbsolutePositionDegrees =
@@ -203,7 +209,7 @@ public class ArmIOTalon implements ArmIO {
 
   @Override
   public void setPivotVoltagePos(double position) {
-    pivotController.setControl(voltPosition.withPosition(position));
+    pivotController.setControl(voltPosition.withPosition(position + pivot_pos_offset));
   }
 
    @Override

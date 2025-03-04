@@ -45,6 +45,7 @@ public class Arm extends SubsystemBase {
     IDLE,
     HOLD,
   };
+  
 
   private pivotStates pivotState = pivotStates.HOLD;
   // DigitalInput linebreak1 = new DigitalInput(Hardwaremap.ArmRollerLinebreak_DIO);
@@ -195,19 +196,19 @@ public class Arm extends SubsystemBase {
 
 
     }
-    double pivot_pos = inputs.pivotPositionRot - pivot_offset;
-    if (!ishomed && pivotSetpoint > 1.0) {
-      pivot_pos = -3.0;
-    }
-    double commandVolts = pivotPID.calculate(pivot_pos, pivotSetpoint);
-    if (pivot_pos <= 0.7) {
-      commandVolts *= 1.6;
-    }
+   // double pivot_pos = inputs.pivotPositionRot - pivot_offset;
+   // if (!ishomed && pivotSetpoint > 1.0) {
+   //   pivot_pos = -3.0;
+   // }
+   // double commandVolts = pivotPID.calculate(pivot_pos, pivotSetpoint);
+   // if (pivot_pos <= 0.7) {
+   //   commandVolts *= 1.6;
+   // }
     //commandVolts = MathUtil.clamp(commandVolts, -3.5, 2.0);
 
-    Logger.recordOutput("Arm/PID_out", commandVolts);
+    //Logger.recordOutput("Arm/PID_out", commandVolts);
     Logger.recordOutput("Arm/setpoint", this.pivotSetpoint);
-    Logger.recordOutput("Arm/offsetPos", pivot_pos);
+    //Logger.recordOutput("Arm/offsetPos", pivot_pos_offset);
     // runPivot(commandVolts);
     pivotPID.checkParemeterUpdate();
     //lastRollerSpeed = inputs.rollerVelocityRadPerSec;

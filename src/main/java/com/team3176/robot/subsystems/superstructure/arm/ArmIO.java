@@ -16,12 +16,14 @@ public interface ArmIO {
   public static class ArmIOInputs {
     public double pivotPositionDeg = 0.0;
     public double pivotPositionRot = 0.0;
+    public double pivotPositionRotREAL =  0.0;
     public double pivotAbsolutePositionDegrees = 0.0;
     public double pivotVelocityRadPerSec = 0.0;
     public double pivotAppliedVolts = 0.0;
     public double pivotAmpsStator = 0.0;
     public double pivotAmpsSupply = 0.0;
     public double pivotTempCelcius = 0.0;
+    public double pivot_pos_offset = 0.0;
 
     public boolean coralLaserCan = false;
     public double coralLaserCanDist = 100;
